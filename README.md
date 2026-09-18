@@ -34,23 +34,40 @@ src/
 ├── schemas/           # Zod validation schemas for all incoming data
 ├── services/          # Core business logic and database repository interactions
 └── container.js       # Centralized Dependency Injection and Mediator mapping hub
-
----
+```
 ### 🔀 The Request Lifecycle Flow
 ```mermaid
 graph TD
+    %% Node Definitions & Connections
     A[HTTP Request Client] --> B[Fastify Route Controller]
-    B -->|Extracts DTO Data| C[Instantiate Command/Query Object]
+    B -->|Extracts DTO Data| C[Instantiate Command / Query Object]
     C --> D[Send to Central Mediator]
     D --> E{Validation Behavior Interceptor}
     E -->|Fails Zod Schema| F[Instant 400 Bad Request Response]
     E -->|Passes Validation| G[Route to Context Handler]
     G --> H[Invoke Core Business Service]
-    H -->|Database Access via Prisma| I[(PostgreSQL Instance)]
+    H -->|Database Access via Prisma| I[(PostgreSQL Database)]
     I --> H
     H -->|Return Safe Response| B
-```
 
+    %% Custom CSS Color-Coding Classes
+    classDef client fill:#34495e,stroke:#2c3e50,stroke-width:2px,color:#fff;
+    classDef routing fill:#2980b9,stroke:#1f3a60,stroke-width:2px,color:#fff;
+    classDef mediator fill:#8e44ad,stroke:#5b2c6f,stroke-width:2px,color:#fff;
+    classDef validation fill:#d35400,stroke:#935116,stroke-width:2px,color:#fff;
+    classDef error fill:#c0392b,stroke:#78281f,stroke-width:2px,color:#fff;
+    classDef business fill:#27ae60,stroke:#145a32,stroke-width:2px,color:#fff;
+    classDef database fill:#f1c40f,stroke:#b7950b,stroke-width:2px,color:#2c3e50;
+
+    %% Class Assigning
+    class A client;
+    class B routing;
+    class C,D,G mediator;
+    class E validation;
+    class F error;
+    class H business;
+    class I database;
+```
 ---
 
 ## 🛠️ Tech Stack & Ecosystem
