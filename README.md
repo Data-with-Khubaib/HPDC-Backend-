@@ -1,4 +1,4 @@
-# 🏢 HPDC Backend Services
+# HPDC Backend Services
 
 > A robust, scalable, and highly decoupled backend infrastructure for the HPDC (Halal Product Development Center) platform, built with Node.js and Fastify.
 
