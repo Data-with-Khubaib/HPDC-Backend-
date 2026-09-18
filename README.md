@@ -35,41 +35,81 @@ src/
 ├── services/          # Core business logic and database repository interactions
 └── container.js       # Centralized Dependency Injection and Mediator mapping hub
 
-🔀 The Request Flow
-Route receives the HTTP request.
-Controller extracts data and instantiates a specific Command or Query object.
-Controller sends the object to the Mediator.
-The Validation Behavior intercepts the command, matching it against Zod schemas.
-If valid, the Mediator routes it to the specific Handler.
-The Handler executes the Service logic and returns the result.
-🚀 Getting Started
-Prerequisites
-Node.js (v18+ recommended)
-npm or yarn
-PostgreSQL (or your respective database)
-Installation
-Clone the repository
-bash
+
+### 🔀 The Request Lifecycle Flow
+
+```mermaid
+graph TD
+    A[HTTP Request Client] --> B[Fastify Route Controller]
+    B -->|Extracts DTO Data| C[Instantiate Command/Query Object]
+    C --> D[Send to Central Mediator]
+    D --> E{Validation Behavior Interceptor}
+    E -->|Fails Zod Schema| F[Instant 400 Bad Request Response]
+    E -->|Passes Validation| G[Route to Context Handler]
+    G --> H[Invoke Core Business Service]
+    H -->|Database Access via Prisma| I[(PostgreSQL Instance)]
+    I --> H
+    H -->|Return Safe Response| B
+```
+
+---
+
+## 🛠️ Tech Stack & Ecosystem
+
+* **Runtime:** Node.js (v18+)
+* **Web Framework:** Fastify
+* **Database ORM:** Prisma ORM
+* **Data Layer:** PostgreSQL Database
+* **Validation Layer:** Zod Schemas
+* **Design Engine:** CQRS, Mediator, and Dependency Injection
+* **Streaming Engine:** WebSockets (`ws`)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+Make sure you have the following installed on your development machine:
+* **Node.js** (v18.0.0 or higher recommended)
+* **npm** or **yarn** package manager
+* An active **PostgreSQL** instance
+
+### 1. Installation
+Clone the repository to your local path and install dependencies:
+```bash
 git clone https://github.com/Data-with-Khubaib/HPDC-Backend-.git
 cd HPDC-Backend-
-Install dependencies
-bash
 npm install
-Configure Environment Variables Create a .env file in the root directory:
-env
-DATABASE_URL="postgresql://user:password@localhost:5432/hpdc"
-JWT_SECRET="your-super-secret-key"
+```
+
+### 2. Environment Configuration
+Create a secure configuration environment file in your project root:
+```bash
+cp .env.example .env
+```
+
+Open the newly created `.env` file and configure your credentials:
+```env
 PORT=3000
-Run Database Migrations
-bash
+DATABASE_URL="postgresql://user:password@localhost:5432/hpdc"
+JWT_SECRET="your-super-secret-production-grade-encryption-key"
+```
+
+### 3. Database Initial Setup
+Synchronize your local PostgreSQL schema with the current Prisma domain models:
+```bash
 npx prisma migrate dev
-Start the Development Server
-bash
+```
+
+### 4. Running the Code
+Start the development server with hot-reload enabled:
+```bash
 npm run dev
-🛠️ Tech Stack
-Runtime: Node.js
-Framework: Fastify
-Database ORM: Prisma
-Validation: Zod
-Architecture: CQRS, Mediator Pattern, Dependency Injection
-Real-time: WebSockets (ws)
+```
+The server will boot up and spin up a listener on your designated `PORT` environment parameter.
+
+---
+
+## 📄 License
+
+This project is proprietary and confidential. All rights reserved. Built for the **Halal Product Development Center (HPDC)**.
