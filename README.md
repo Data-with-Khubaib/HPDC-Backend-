@@ -34,3 +34,42 @@ src/
 ├── schemas/           # Zod validation schemas for all incoming data
 ├── services/          # Core business logic and database repository interactions
 └── container.js       # Centralized Dependency Injection and Mediator mapping hub
+
+🔀 The Request Flow
+Route receives the HTTP request.
+Controller extracts data and instantiates a specific Command or Query object.
+Controller sends the object to the Mediator.
+The Validation Behavior intercepts the command, matching it against Zod schemas.
+If valid, the Mediator routes it to the specific Handler.
+The Handler executes the Service logic and returns the result.
+🚀 Getting Started
+Prerequisites
+Node.js (v18+ recommended)
+npm or yarn
+PostgreSQL (or your respective database)
+Installation
+Clone the repository
+bash
+git clone https://github.com/Data-with-Khubaib/HPDC-Backend-.git
+cd HPDC-Backend-
+Install dependencies
+bash
+npm install
+Configure Environment Variables Create a .env file in the root directory:
+env
+DATABASE_URL="postgresql://user:password@localhost:5432/hpdc"
+JWT_SECRET="your-super-secret-key"
+PORT=3000
+Run Database Migrations
+bash
+npx prisma migrate dev
+Start the Development Server
+bash
+npm run dev
+🛠️ Tech Stack
+Runtime: Node.js
+Framework: Fastify
+Database ORM: Prisma
+Validation: Zod
+Architecture: CQRS, Mediator Pattern, Dependency Injection
+Real-time: WebSockets (ws)
