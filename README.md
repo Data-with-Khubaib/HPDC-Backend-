@@ -35,9 +35,8 @@ src/
 ├── services/          # Core business logic and database repository interactions
 └── container.js       # Centralized Dependency Injection and Mediator mapping hub
 
-
+---
 ### 🔀 The Request Lifecycle Flow
-
 ```mermaid
 graph TD
     A[HTTP Request Client] --> B[Fastify Route Controller]
