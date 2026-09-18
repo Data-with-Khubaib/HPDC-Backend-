@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Compliance</title>
+    <!-- Assuming css is served statically via fastify or injected. For standalone, we can inject a style tag -->
+    <style>
+        /* INLINE CSS FALLBACK in case fastify static isn't working for the view */
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #f5f5f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Montserrat', sans-serif; }
+        .certificate-wrapper { width: 210mm; height: 297mm; background: white; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
+        .certificate-border { width: 100%; height: 100%; border: 2px solid #D4AF37; padding: 6px; position: relative; }
+        .certificate-inner-border { width: 100%; height: 100%; border: 1px solid #1B4332; position: relative; padding: 40px; display: flex; flex-direction: column; }
+        .valid-ribbon { position: absolute; top: 30px; right: -30px; background: #1B4332; color: white; padding: 5px 40px; transform: rotate(45deg); font-weight: bold; font-size: 14px; letter-spacing: 2px; }
+        .header-logos { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+        .logo-placeholder { font-weight: bold; color: #1B4332; font-size: 20px; border: 2px solid #1B4332; padding: 10px; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .cert-title-container { text-align: center; flex: 1; }
+        .cert-title-en { color: #D4AF37; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .cert-title-ar { color: #1B4332; font-size: 20px; font-weight: bold; margin: 5px 0; }
+        .cert-subtitle { color: #1B4332; font-size: 18px; font-weight: 700; }
+        .cert-body { text-align: center; margin-top: 40px; }
+        .cert-certify-text { display: flex; justify-content: space-between; font-size: 12px; color: #333; margin-bottom: 20px; }
+        .company-name { font-family: 'Libre Baskerville', serif; font-size: 32px; color: #1B4332; font-weight: 700; margin-bottom: 5px; }
+        .company-name-ar { font-family: 'Montserrat', sans-serif; font-size: 24px; color: #1B4332; font-weight: bold; margin-bottom: 10px; }
+        .company-details { font-size: 12px; color: #333; line-height: 1.6; margin-bottom: 30px; }
+        .cert-number-container { display: flex; justify-content: center; align-items: center; gap: 20px; margin: 30px 0; }
+        .holds-cert { font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        .cert-number-box { border: 1px solid #D4AF37; padding: 10px 40px; font-family: monospace; font-size: 18px; letter-spacing: 2px; color: #333; position: relative; }
+        .cert-number-box::before, .cert-number-box::after { content: ''; position: absolute; width: 10px; height: 10px; border: 2px solid #333; }
+        .cert-number-box::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .cert-number-box::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+        .compliance-text { display: flex; justify-content: space-between; font-size: 11px; line-height: 1.5; margin-bottom: 30px; text-align: left; }
+        .compliance-text > div { width: 48%; }
+        .compliance-text > div:last-child { text-align: right; direction: rtl; }
+        .scope-section { border: 1px solid #D4AF37; border-radius: 8px; overflow: hidden; margin-bottom: 40px; }
+        .scope-header { background: #1B4332; color: white; padding: 8px 15px; display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; }
+        .scope-body { padding: 15px; display: flex; justify-content: space-between; font-size: 11px; }
+        .scope-col { width: 48%; }
+        .scope-col-right { text-align: right; direction: rtl; }
+        .scope-title { color: #D4AF37; font-weight: bold; margin-bottom: 5px; border-left: 2px solid #D4AF37; padding-left: 8px; }
+        .scope-title-right { border-left: none; border-right: 2px solid #D4AF37; padding-left: 0; padding-right: 8px; }
+        .scope-content { color: #333; margin-bottom: 15px; }
+        .footer-section { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; }
+        .signature-block { text-align: center; width: 200px; }
+        .signature-text { font-size: 10px; font-weight: bold; }
+        .qr-code { width: 80px; height: 80px; border: 2px solid #1B4332; padding: 2px; }
+        .dates-block { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; row-gap: 15px; }
+        .date-label { font-weight: bold; color: #333; text-transform: uppercase; }
+        .date-value { color: #666; }
+        .date-ar { text-align: right; direction: rtl; }
+        .tagline { display: flex; justify-content: space-between; color: #D4AF37; font-weight: bold; font-size: 12px; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .terms-section { margin-top: 15px; display: flex; justify-content: space-between; font-size: 8px; color: #666; }
+        .terms-col { width: 48%; }
+        .terms-col-right { text-align: right; direction: rtl; }
+        .terms-col h4 { font-size: 9px; color: #333; margin-bottom: 5px; }
+        .terms-col ul { padding-left: 15px; }
+        .terms-col-right ul { padding-right: 15px; padding-left: 0; }
+        .terms-col li { margin-bottom: 3px; }
+    </style>
+</head>
+<body>
+    <div class="certificate-wrapper">
+        <div class="certificate-border">
+            <div class="certificate-inner-border">
+                <div class="valid-ribbon">VALID</div>
+                
+                <div class="header-logos">
+                    <!-- Placeholder for HALAL DEVCO -->
+                    <div class="logo-placeholder" style="border:none; border-radius:0; justify-content:flex-start; color:#1B4332; font-family:'Montserrat',sans-serif; text-align:left;">
+                        <span style="color:#B7791F; font-size:24px; margin-right:5px;">&#9632;</span>
+                        <div style="line-height:1;">HALAL<br/>DEVCO.</div>
+                    </div>
+                    
+                    <div class="cert-title-container">
+                        <div class="cert-title-en">CERTIFICATE OF COMPLIANCE</div>
+                        <div class="cert-title-ar">شهادة طيب للاستدامة</div>
+                        <div class="cert-subtitle">ESG Tayib Certificate</div>
+                    </div>
+
+                    <!-- Placeholder for Tayib logo -->
+                    <div class="logo-placeholder">طيب<br>Tayib</div>
+                </div>
+
+                <div class="cert-certify-text">
+                    <div>This is to certify that</div>
+                    <div style="direction: rtl;">تشهد هذه الوثيقة بأن</div>
+                </div>
+
+                <div class="cert-body">
+                    <div class="company-name">{{companyName}}</div>
+                    <div class="company-name-ar">{{companyNameAr}}</div>
+                    
+                    <div class="company-details">
+                        {{companyAddress}}<br>
+                        Registration No. {{registrationNo}}
+                    </div>
+
+                    <div class="cert-number-container">
+                        <div class="holds-cert">HOLDS CERTIFICATE</div>
+                        <div class="cert-number-box">{{certificateNo}}</div>
+                        <div class="holds-cert" style="direction: rtl;">يحمل الشهادة رقم</div>
+                    </div>
+
+                    <div class="compliance-text">
+                        <div>
+                            The Environmental, Social, and Governance (ESG) practices of the 
+                            <strong>{{companyName}}</strong> comply with the certification requirements 
+                            regarding the following activities, products, and/or services:
+                        </div>
+                        <div>
+                            تتوافق الممارسات البيئية والاجتماعية والحوكمة الخاصة بـ <strong>{{companyNameAr}}</strong> مع متطلبات الشهادة فيما يتعلق بالأنشطة والمنتجات و/أو الخدمات التالية:
+                        </div>
+                    </div>
+
+                    <div class="scope-section">
+                        <div class="scope-header">
+                            <div>SCOPE OF CERTIFICATION</div>
+                            <div>نطاق الشهادة</div>
+                        </div>
+                        <div class="scope-body">
+                            <div class="scope-col">
+                                <div class="scope-title">| PRODUCTS / SERVICES</div>
+                                <div class="scope-content">{{products}}</div>
+                                
+                                <div class="scope-title">| SCOPE</div>
+                                <div class="scope-content">{{scope}}</div>
+                                
+                                <div style="font-size: 9px; font-style: italic; color: #888;">(For multi-site organizations, see Annex for additional sites)</div>
+                            </div>
+                            <div class="scope-col-right">
+                                <div class="scope-title-right">المنتجات / الخدمات |</div>
+                                <div class="scope-content">{{productsAr}}</div>
+                                
+                                <div class="scope-title-right">بيان النطاق |</div>
+                                <div class="scope-content">{{scopeAr}}</div>
+                                
+                                <div style="font-size: 9px; font-style: italic; color: #888;">(للمنظمات متعددة المواقع، يُرجى الرجوع إلى الملحق للمواقع الإضافية)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-section">
+                    <div class="signature-block">
+                        <div style="font-size: 11px; margin-bottom: 10px;">صادرة نيابة عن شركة تطوير منتجات الحلال</div>
+                        <div style="font-size: 11px; font-weight: bold;">ON BEHALF OF HPDC</div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://hpdc.sa/verify/{{certificateNo}}" alt="QR Code" class="qr-code">
+                        <div style="font-size: 8px; font-weight: bold; margin-top: 5px;">SCAN TO VERIFY<br>امسح للتحقق من الشهادة</div>
+                    </div>
+
+                    <div class="dates-block">
+                        <div class="date-label">ISSUE DATE</div>
+                        <div class="date-ar"><span class="date-value">{{issueDate}}</span><br>تاريخ الإصدار</div>
+                        
+                        <div class="date-label">LATEST REVISION</div>
+                        <div class="date-ar"><span class="date-value">{{issueDate}}</span><br>آخر تحديث</div>
+                        
+                        <div class="date-label">EXPIRY DATE</div>
+                        <div class="date-ar"><span class="date-value">{{expiryDate}}</span><br>تاريخ الانتهاء</div>
+                    </div>
+                </div>
+
+                <div class="tagline">
+                    <div>Sustainable Value ... Lasting Impact</div>
+                    <div>طيب يدوم... وأثر مستدام</div>
+                </div>
+
+                <div class="terms-section">
+                    <div class="terms-col">
+                        <h4>TERMS OF USE</h4>
+                        <ul>
+                            <li>This certificate was issued electronically and remains the property of HPDC, and may only be used for the purpose for which it was issued. HPDC may suspend or revoke the certificate in the event of any misuse.</li>
+                            <li>An electronic certificate can be authenticated "online". Printed copies can be validated at https://www.hpdc.sa/en.</li>
+                            <li>HPDC shall not be liable to any third party for any consequences arising from reliance on or the use of this certificate or from any alteration thereof.</li>
+                        </ul>
+                    </div>
+                    <div class="terms-col-right">
+                        <h4>شروط الاستخدام</h4>
+                        <ul>
+                            <li>تم إصدار هذه الشهادة إلكترونياً، وتظل ملكاً لشركة تطوير منتجات الحلال، ولا يجوز استخدامها إلا للغرض الذي صدرت من أجله. يحق لشركة تطوير منتجات الحلال تعليق الشهادة أو إلغاؤها في حال إساءة استخدامها.</li>
+                            <li>يمكن التحقق من صحة الشهادة الإلكترونية عبر الإنترنت. كما يمكن التحقق من النسخ المطبوعة عبر الرابط: https://www.hpdc.sa/ar</li>
+                            <li>لا تتحمل شركة تطوير منتجات الحلال أي مسؤولية تجاه أي طرف ثالث عن أي عواقب ناتجة عن الاعتماد على هذه الشهادة أو استخدامها، أو عن أي تعديل يطرأ عليها.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

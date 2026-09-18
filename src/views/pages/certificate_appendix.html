@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Appendix</title>
+    <style>
+        /* INLINE CSS FALLBACK */
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #f5f5f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Montserrat', sans-serif; }
+        
+        .certificate-wrapper { width: 210mm; height: 297mm; background: white; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
+        .page-break { page-break-before: always; } /* Used for printing multiple pages */
+        
+        .certificate-border { width: 100%; height: 100%; border: 2px solid #D4AF37; padding: 6px; position: relative; }
+        .certificate-inner-border { width: 100%; height: 100%; border: 1px solid #1B4332; position: relative; padding: 40px; display: flex; flex-direction: column; }
+        .valid-ribbon { position: absolute; top: 30px; right: -30px; background: #1B4332; color: white; padding: 5px 40px; transform: rotate(45deg); font-weight: bold; font-size: 14px; letter-spacing: 2px; }
+        
+        .header-logos { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .logo-placeholder { font-weight: bold; color: #1B4332; font-size: 20px; border: 2px solid #1B4332; padding: 10px; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; text-align: center; }
+        
+        .cert-title-container { text-align: center; flex: 1; }
+        .cert-title-en { color: #D4AF37; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .cert-title-ar { color: #1B4332; font-size: 18px; font-weight: bold; margin: 5px 0; }
+        .cert-subtitle { color: #1B4332; font-size: 16px; font-weight: 700; }
+        
+        .cert-certify-text { display: flex; justify-content: space-between; font-size: 11px; color: #333; margin-bottom: 10px; }
+        
+        .cert-body { text-align: center; margin-top: 10px; }
+        .company-name { font-family: 'Libre Baskerville', serif; font-size: 28px; color: #1B4332; font-weight: 700; margin-bottom: 5px; }
+        .company-name-ar { font-family: 'Montserrat', sans-serif; font-size: 20px; color: #1B4332; font-weight: bold; margin-bottom: 5px; }
+        .company-details { font-size: 11px; color: #333; line-height: 1.4; margin-bottom: 20px; }
+        
+        .ref-box { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: bold; margin-bottom: 15px; }
+        .ref-number { border: 1px solid #D4AF37; padding: 8px 30px; font-family: monospace; font-size: 16px; letter-spacing: 1px; color: #333; position: relative; }
+        .ref-number::before, .ref-number::after { content: ''; position: absolute; width: 8px; height: 8px; border: 2px solid #333; }
+        .ref-number::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .ref-number::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+        
+        .coverage-intro { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 10px; }
+        
+        .multi-site-section { border: 1px solid #D4AF37; border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+        .multi-site-header { background: #1B4332; color: white; padding: 8px 15px; display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; }
+        .multi-site-body { padding: 15px; font-size: 10px; line-height: 1.6; text-align: left; }
+        
+        /* Each Site block */
+        .site-block { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #eee; }
+        .site-block:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .site-col-left { width: 48%; }
+        .site-col-right { width: 48%; text-align: right; direction: rtl; }
+        
+        .site-title { color: #D4AF37; font-weight: bold; margin-bottom: 3px; border-left: 2px solid #D4AF37; padding-left: 6px; font-size: 11px; }
+        .site-title-ar { border-left: none; border-right: 2px solid #D4AF37; padding-left: 0; padding-right: 6px; }
+        
+        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 180px; font-weight: bold; color: rgba(230, 230, 230, 0.4); z-index: -1; font-family: sans-serif; }
+        
+        .footer-section { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; }
+        .qr-code { width: 70px; height: 70px; border: 2px solid #1B4332; padding: 2px; }
+        
+        .terms-section { display: flex; justify-content: space-between; font-size: 8px; color: #666; margin-top: 15px; }
+        .terms-col { width: 45%; }
+        .terms-col-right { text-align: right; direction: rtl; }
+        .terms-col h4 { font-size: 9px; color: #D4AF37; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <!-- <div class="page-break"></div> will be prepended when appending this template -->
+    <div class="certificate-wrapper page-break">
+        <div class="certificate-border">
+            <div class="certificate-inner-border">
+                <div class="valid-ribbon">VALID</div>
+                <div class="watermark">HPDC</div>
+                
+                <div class="header-logos">
+                    <!-- Placeholder for HALAL DEVCO -->
+                    <div class="logo-placeholder" style="border:none; border-radius:0; justify-content:flex-start; color:#1B4332; font-family:'Montserrat',sans-serif; text-align:left;">
+                        <span style="color:#B7791F; font-size:24px; margin-right:5px;">&#9632;</span>
+                        <div style="line-height:1; font-size: 16px;">HALAL<br/>DEVCO.</div>
+                    </div>
+                    
+                    <div class="cert-title-container">
+                        <div class="cert-title-en">CERTIFICATE OF COMPLIANCE</div>
+                        <div class="cert-title-ar">ملحق شهادة طيب للاستدامة</div>
+                        <div class="cert-subtitle">ESG Tayib Certificate Appendix</div>
+                    </div>
+
+                    <!-- Placeholder for Tayib logo -->
+                    <div class="logo-placeholder">طيب<br>Tayib</div>
+                </div>
+
+                <div class="cert-certify-text">
+                    <div>This is to certify that</div>
+                    <div style="direction: rtl;">تشهد هذه الوثيقة بأن</div>
+                </div>
+
+                <div class="cert-body">
+                    <div class="company-name">{{companyName}}</div>
+                    <div class="company-name-ar">{{companyNameAr}}</div>
+                    
+                    <div class="company-details">
+                        {{companyAddress}}<br>
+                        Registration No. {{registrationNo}}
+                    </div>
+
+                    <div class="ref-box">
+                        <div>REFERENCE TO MAIN CERT NO.</div>
+                        <div class="ref-number">{{certificateNo}}</div>
+                        <div style="direction: rtl;">الإشارة إلى الشهادة الرئيسية رقم</div>
+                    </div>
+
+                    <div class="coverage-intro">
+                        <div>This certification covers the following {{siteCount}} site(s) operated by {{companyName}}:</div>
+                        <div style="direction: rtl;">تشمل هذه الشهادة المواقع التالية البالغ عددها {{siteCount}} والتي تشغلها {{companyNameAr}}:</div>
+                    </div>
+
+                    <div class="multi-site-section">
+                        <div class="multi-site-header">
+                            <div>MULTI-SITE COVERAGE</div>
+                            <div>المواقع المشمولة بالشهادة</div>
+                        </div>
+                        <div class="multi-site-body">
+                            {{sitesLoop}}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-section">
+                    <div class="terms-col">
+                        <h4>| EXCLUSIONS</h4>
+                        <p>This appendix applies only to the site-specific scope listed above. Any scope not listed shall not be considered under this appendix.</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=https://hpdc.sa/verify/{{certificateNo}}" alt="QR Code" class="qr-code">
+                        <div style="font-size: 7px; font-weight: bold; margin-top: 3px;">SCAN TO VERIFY AND<br>REVIEW THE TERMS<br>امسح للتحقق ومراجعة<br>الشروط</div>
+                    </div>
+
+                    <div class="terms-col terms-col-right">
+                        <h4 class="site-title-ar">الاستثناءات |</h4>
+                        <p>ينطبق هذا الملحق فقط على النطاق الخاص بالمواقع المحددة أعلاه لكل موقع ويعتبر أي نطاق غير مدرج في هذا الملحق غير معتمد.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; font-size: 8px; color: #666; margin-top: 20px;">
+                    HPDC Contact Details:<br>
+                    Kingdom of Saudi Arabia - Riyadh: Prince Turki bin Abdulaziz 1 Road, Al Malqa District | Email: ESG@hpdc.sa
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
